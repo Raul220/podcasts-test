@@ -1,37 +1,50 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { getPodcastList } from '../services/services';
+import React, { Fragment, useEffect, useState } from 'react';
+import { usePodcastContext } from '../context/podcastState';
+import { getPodcastData } from '../services/services';
 
 export const Home: React.FC = () => {
-  const [podcasts, setPodcasts] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { state: {
+    podcastList,
+  }, dispatch } = usePodcastContext();
 
-  const getData = async () => {
-    debugger;
-    await getPodcastList()
-    .then(response => {
-      if(response.data.Code === 200) {
-        setPodcasts(response.data);
-
-      }
-    })
-    .catch(e => {
-      console.error(e)
-    })
+  const getData = () => {
+    setLoading(true);
+    getPodcastData()
+      .then((res) => {
+        console.log(res);
+        if(dispatch)
+        dispatch({
+          type: 'UPDATE_PODCAST_LIST',
+          payload: res.entry,
+        })
+      })
+      .catch(e => {
+        console.log(e)
+      })
+      .finally(() => {
+        setLoading(false);
+      })
   }
 
   useEffect(() => {
-    debugger;
-    if (!podcasts) getData();
+    if (!podcastList.length) getData();
   }, [])
 
   return (
     <Fragment>
-      {/* <ul>
-        {
-          podcasts?.map((item, index) => {
-            <li>{ }</li>
-          })
-        }
-      </ul> */}
+      {
+        loading ? 'Loading' : (
+          <ul>
+            {
+              podcastList?.map((item, index) => {
+                <li key={index}>{item.id}</li>
+              })
+            }
+          </ul>
+        )
+      }
+
     </Fragment>
   )
 }
