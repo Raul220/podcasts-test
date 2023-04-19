@@ -1,0 +1,29 @@
+.podcast-card {
+    text-align: center;
+    position: relative;
+    width: 230px;
+    height: 100px;
+    float: left;
+    margin: 30px 10px;
+    .ant-image {
+        top: 30px;
+    }
+    .text-container {
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        padding: 15px;
+        display: grid;
+        span {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 500;
+            font-size: 10px;
+        }
+        .card-title {
+            color: black;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+        .card-author {
+            color: 	#808080;
+        }
+    }
+}

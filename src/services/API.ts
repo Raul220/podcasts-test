@@ -26,18 +26,18 @@ export interface Author {
  * Podcast data
  */
 export interface Podcast {
-    name: LabelString;
-    image: PodcastImage[];
+    'im:name': LabelString;
+    'im:image': PodcastImage[];
     sumary: LabelString;
-    price: PodcastPrice;
-    contentType: PodcastContentType;
+    'im:price': PodcastPrice;
+    'im:contentType': PodcastContentType;
     rights: LabelString;
     tittle: LabelString;
     link: PodcastLink;
-    id: LabelString;
-    artist: PodcastArtist;
+    id: PodcastId;
+    'im:artist': PodcastArtist;
     category: PodcastCategory;
-    releaseDate: PodcastReleaseDate;
+    'im:releaseDate': PodcastReleaseDate;
 }
 
 /**
@@ -117,4 +117,11 @@ export interface PodcastReleaseDate{
  */
 export interface PodcastService {
     entry: Podcast[];
+}
+
+export interface PodcastId {
+    label:string;
+    attributes: {
+        'im:id': string;
+    }
 }

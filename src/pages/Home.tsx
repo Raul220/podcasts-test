@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { usePodcastContext } from '../context/podcastState';
 import { getPodcastData } from '../services/services';
+import PodcastCard from '../components/PodcastCard/PodcastCard';
+import './Home.scss';
 
 export const Home: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -13,11 +15,13 @@ export const Home: React.FC = () => {
     getPodcastData()
       .then((res) => {
         console.log(res);
-        if(dispatch)
-        dispatch({
-          type: 'UPDATE_PODCAST_LIST',
-          payload: res.entry,
-        })
+        // const podcasts = res.entry[0].artist;
+        // console.log(res.entry[0].)
+        if (dispatch)
+          dispatch({
+            type: 'UPDATE_PODCAST_LIST',
+            payload: res.entry,
+          })
       })
       .catch(e => {
         console.log(e)
@@ -35,13 +39,19 @@ export const Home: React.FC = () => {
     <Fragment>
       {
         loading ? 'Loading' : (
-          <ul>
+          <div className='podcast-container'>
             {
-              podcastList?.map((item, index) => {
-                <li key={index}>{item.id}</li>
-              })
+              podcastList?.map((item, index) => (
+                <PodcastCard
+                  key={index}
+                  author={item['im:artist'].label}
+                  imgUrl={item['im:image'].filter(e => e.attributes.height === '60')[0].label}
+                  title={item['im:name'].label}
+                  id={item.id.attributes['im:id']}
+                />
+              ))
             }
-          </ul>
+          </div>
         )
       }
 
